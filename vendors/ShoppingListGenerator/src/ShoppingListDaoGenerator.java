@@ -7,11 +7,13 @@ import de.greenrobot.daogenerator.ToMany;
 public class ShoppingListDaoGenerator {
 	
 	private static Entity 	basic, product, category, shoppinglist;
-	
+
+	private static final String SHOPPING_LIST_GENERATE_PATH					=				"../ShoppingList/src";
+	private static final String SHOPPING_LIST_PREPARED_GENERATE_PATH		=				"../ShoppingListPrepared/src";
 	
 	public static void main(String[] args) throws Exception {
 		
-		Schema schema = new Schema(1, "com.apupo.shoppinglist.models.database");
+		Schema schema = new Schema(1, "sk.apupo.shoppinglist.daos");
 		schema.enableKeepSectionsByDefault();
 		
 		addBasic(schema);
@@ -21,7 +23,7 @@ public class ShoppingListDaoGenerator {
 		
 		addRelationships(schema);
 		
-		new DaoGenerator().generateAll(schema, "../ShoppingList/src");
+		new DaoGenerator().generateAll(schema, SHOPPING_LIST_PREPARED_GENERATE_PATH);
 	}
 	
 	private static void addBasic(Schema schema) {

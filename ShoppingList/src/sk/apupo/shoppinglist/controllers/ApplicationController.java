@@ -1,15 +1,13 @@
 package sk.apupo.shoppinglist.controllers;
 
 import android.app.Application;
-import android.os.Environment;
 
-import com.activeandroid.ActiveAndroid;
-
-import java.io.File;
-
-public class ApplicationController extends com.activeandroid.app.Application {
+public class ApplicationController extends Application {
 	
 	//public final Logger logger = LoggerFactory.getLogger();
+	
+	private DaoController daoController;
+	public DaoController getDaoController() { return this.daoController; }
 
 	public ApplicationController() {
 	}
@@ -17,28 +15,15 @@ public class ApplicationController extends com.activeandroid.app.Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-        ActiveAndroid.initialize(this);
-
-		initLogger();
+		
+		if(this.daoController == null) {
+			this.daoController = new DaoController(this);
+		}
 	}
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        ActiveAndroid.dispose();
     }
-
-    protected void initLogger() {
-		/*PropertyConfigurator.getConfigurator(this).configure();
-		FileAppender fa = new FileAppender();
-		fa.setFileName("log.text");
-		logger.addAppender(fa);
-		logger.info("Application started");*/
-	}
-	
-	public File getLogFile() {
-		File file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + File.separator + "log.text");
-		return file;
-	}
+    
 }

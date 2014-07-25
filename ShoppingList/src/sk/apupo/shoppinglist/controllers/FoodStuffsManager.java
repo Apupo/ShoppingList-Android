@@ -5,4 +5,8 @@ package sk.apupo.shoppinglist.controllers;
  */
 public class FoodStuffsManager extends Object {
 
+	public FoodStuffsManager() {
+		
+	}
+	
 }
