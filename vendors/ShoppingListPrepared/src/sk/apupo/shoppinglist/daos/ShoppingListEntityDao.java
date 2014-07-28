@@ -25,10 +25,9 @@ public class ShoppingListEntityDao extends AbstractDao<ShoppingListEntity, Long>
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
-        public final static Property Description = new Property(2, String.class, "description", false, "DESCRIPTION");
-        public final static Property ModificationDate = new Property(3, java.util.Date.class, "modificationDate", false, "MODIFICATION_DATE");
-        public final static Property TitleClean = new Property(4, String.class, "titleClean", false, "TITLE_CLEAN");
-        public final static Property BoughtDate = new Property(5, java.util.Date.class, "boughtDate", false, "BOUGHT_DATE");
+        public final static Property TitleClean = new Property(2, String.class, "titleClean", false, "TITLE_CLEAN");
+        public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
+        public final static Property ModificationDate = new Property(4, java.util.Date.class, "modificationDate", false, "MODIFICATION_DATE");
     };
 
 
@@ -46,10 +45,9 @@ public class ShoppingListEntityDao extends AbstractDao<ShoppingListEntity, Long>
         db.execSQL("CREATE TABLE " + constraint + "'SHOPPING_LIST_ENTITY' (" + //
                 "'_id' INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "'TITLE' TEXT," + // 1: title
-                "'DESCRIPTION' TEXT," + // 2: description
-                "'MODIFICATION_DATE' INTEGER," + // 3: modificationDate
-                "'TITLE_CLEAN' TEXT," + // 4: titleClean
-                "'BOUGHT_DATE' INTEGER);"); // 5: boughtDate
+                "'TITLE_CLEAN' TEXT," + // 2: titleClean
+                "'DESCRIPTION' TEXT," + // 3: description
+                "'MODIFICATION_DATE' INTEGER);"); // 4: modificationDate
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_SHOPPING_LIST_ENTITY__id ON SHOPPING_LIST_ENTITY" +
                 " (_id);");
@@ -76,24 +74,19 @@ public class ShoppingListEntityDao extends AbstractDao<ShoppingListEntity, Long>
             stmt.bindString(2, title);
         }
  
+        String titleClean = entity.getTitleClean();
+        if (titleClean != null) {
+            stmt.bindString(3, titleClean);
+        }
+ 
         String description = entity.getDescription();
         if (description != null) {
-            stmt.bindString(3, description);
+            stmt.bindString(4, description);
         }
  
         java.util.Date modificationDate = entity.getModificationDate();
         if (modificationDate != null) {
-            stmt.bindLong(4, modificationDate.getTime());
-        }
- 
-        String titleClean = entity.getTitleClean();
-        if (titleClean != null) {
-            stmt.bindString(5, titleClean);
-        }
- 
-        java.util.Date boughtDate = entity.getBoughtDate();
-        if (boughtDate != null) {
-            stmt.bindLong(6, boughtDate.getTime());
+            stmt.bindLong(5, modificationDate.getTime());
         }
     }
 
@@ -109,10 +102,9 @@ public class ShoppingListEntityDao extends AbstractDao<ShoppingListEntity, Long>
         ShoppingListEntity entity = new ShoppingListEntity( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // description
-            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)), // modificationDate
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // titleClean
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // boughtDate
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // titleClean
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // description
+            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // modificationDate
         );
         return entity;
     }
@@ -122,10 +114,9 @@ public class ShoppingListEntityDao extends AbstractDao<ShoppingListEntity, Long>
     public void readEntity(Cursor cursor, ShoppingListEntity entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setDescription(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setModificationDate(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
-        entity.setTitleClean(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setBoughtDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setTitleClean(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setDescription(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setModificationDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
      }
     
     /** @inheritdoc */

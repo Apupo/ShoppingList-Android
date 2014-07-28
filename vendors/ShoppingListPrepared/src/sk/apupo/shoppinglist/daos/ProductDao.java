@@ -29,16 +29,14 @@ public class ProductDao extends AbstractDao<Product, Void> {
     */
     public static class Properties {
         public final static Property Title = new Property(0, String.class, "title", false, "TITLE");
-        public final static Property Description = new Property(1, String.class, "description", false, "DESCRIPTION");
-        public final static Property UnitPrice = new Property(2, Float.class, "unitPrice", false, "UNIT_PRICE");
-        public final static Property Bought = new Property(3, Boolean.class, "bought", false, "BOUGHT");
-        public final static Property BoughtDate = new Property(4, java.util.Date.class, "boughtDate", false, "BOUGHT_DATE");
-        public final static Property ModificationDate = new Property(5, java.util.Date.class, "modificationDate", false, "MODIFICATION_DATE");
-        public final static Property TitleClean = new Property(6, String.class, "titleClean", false, "TITLE_CLEAN");
+        public final static Property TitleClean = new Property(1, String.class, "titleClean", false, "TITLE_CLEAN");
+        public final static Property MainGroup = new Property(2, String.class, "mainGroup", false, "MAIN_GROUP");
+        public final static Property SubGroup = new Property(3, String.class, "subGroup", false, "SUB_GROUP");
+        public final static Property Comodity = new Property(4, String.class, "comodity", false, "COMODITY");
+        public final static Property SubComodity = new Property(5, String.class, "subComodity", false, "SUB_COMODITY");
+        public final static Property ModificationDate = new Property(6, java.util.Date.class, "modificationDate", false, "MODIFICATION_DATE");
         public final static Property InBasket = new Property(7, Boolean.class, "inBasket", false, "IN_BASKET");
-        public final static Property Quantity = new Property(8, Integer.class, "quantity", false, "QUANTITY");
-        public final static Property QuantityType = new Property(9, Integer.class, "quantityType", false, "QUANTITY_TYPE");
-        public final static Property Fk_category_id = new Property(10, long.class, "fk_category_id", false, "FK_CATEGORY_ID");
+        public final static Property Fk_category_id = new Property(8, long.class, "fk_category_id", false, "FK_CATEGORY_ID");
     };
 
     private DaoSession daoSession;
@@ -59,16 +57,14 @@ public class ProductDao extends AbstractDao<Product, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'PRODUCT' (" + //
                 "'TITLE' TEXT," + // 0: title
-                "'DESCRIPTION' TEXT," + // 1: description
-                "'UNIT_PRICE' REAL," + // 2: unitPrice
-                "'BOUGHT' INTEGER," + // 3: bought
-                "'BOUGHT_DATE' INTEGER," + // 4: boughtDate
-                "'MODIFICATION_DATE' INTEGER," + // 5: modificationDate
-                "'TITLE_CLEAN' TEXT," + // 6: titleClean
+                "'TITLE_CLEAN' TEXT," + // 1: titleClean
+                "'MAIN_GROUP' TEXT," + // 2: mainGroup
+                "'SUB_GROUP' TEXT," + // 3: subGroup
+                "'COMODITY' TEXT," + // 4: comodity
+                "'SUB_COMODITY' TEXT," + // 5: subComodity
+                "'MODIFICATION_DATE' INTEGER," + // 6: modificationDate
                 "'IN_BASKET' INTEGER," + // 7: inBasket
-                "'QUANTITY' INTEGER," + // 8: quantity
-                "'QUANTITY_TYPE' INTEGER," + // 9: quantityType
-                "'FK_CATEGORY_ID' INTEGER NOT NULL );"); // 10: fk_category_id
+                "'FK_CATEGORY_ID' INTEGER NOT NULL );"); // 8: fk_category_id
     }
 
     /** Drops the underlying database table. */
@@ -87,51 +83,41 @@ public class ProductDao extends AbstractDao<Product, Void> {
             stmt.bindString(1, title);
         }
  
-        String description = entity.getDescription();
-        if (description != null) {
-            stmt.bindString(2, description);
+        String titleClean = entity.getTitleClean();
+        if (titleClean != null) {
+            stmt.bindString(2, titleClean);
         }
  
-        Float unitPrice = entity.getUnitPrice();
-        if (unitPrice != null) {
-            stmt.bindDouble(3, unitPrice);
+        String mainGroup = entity.getMainGroup();
+        if (mainGroup != null) {
+            stmt.bindString(3, mainGroup);
         }
  
-        Boolean bought = entity.getBought();
-        if (bought != null) {
-            stmt.bindLong(4, bought ? 1l: 0l);
+        String subGroup = entity.getSubGroup();
+        if (subGroup != null) {
+            stmt.bindString(4, subGroup);
         }
  
-        java.util.Date boughtDate = entity.getBoughtDate();
-        if (boughtDate != null) {
-            stmt.bindLong(5, boughtDate.getTime());
+        String comodity = entity.getComodity();
+        if (comodity != null) {
+            stmt.bindString(5, comodity);
+        }
+ 
+        String subComodity = entity.getSubComodity();
+        if (subComodity != null) {
+            stmt.bindString(6, subComodity);
         }
  
         java.util.Date modificationDate = entity.getModificationDate();
         if (modificationDate != null) {
-            stmt.bindLong(6, modificationDate.getTime());
-        }
- 
-        String titleClean = entity.getTitleClean();
-        if (titleClean != null) {
-            stmt.bindString(7, titleClean);
+            stmt.bindLong(7, modificationDate.getTime());
         }
  
         Boolean inBasket = entity.getInBasket();
         if (inBasket != null) {
             stmt.bindLong(8, inBasket ? 1l: 0l);
         }
- 
-        Integer quantity = entity.getQuantity();
-        if (quantity != null) {
-            stmt.bindLong(9, quantity);
-        }
- 
-        Integer quantityType = entity.getQuantityType();
-        if (quantityType != null) {
-            stmt.bindLong(10, quantityType);
-        }
-        stmt.bindLong(11, entity.getFk_category_id());
+        stmt.bindLong(9, entity.getFk_category_id());
     }
 
     @Override
@@ -151,16 +137,14 @@ public class ProductDao extends AbstractDao<Product, Void> {
     public Product readEntity(Cursor cursor, int offset) {
         Product entity = new Product( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // title
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // description
-            cursor.isNull(offset + 2) ? null : cursor.getFloat(offset + 2), // unitPrice
-            cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // bought
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)), // boughtDate
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // modificationDate
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // titleClean
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // titleClean
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mainGroup
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // subGroup
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // comodity
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // subComodity
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // modificationDate
             cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // inBasket
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // quantity
-            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9), // quantityType
-            cursor.getLong(offset + 10) // fk_category_id
+            cursor.getLong(offset + 8) // fk_category_id
         );
         return entity;
     }
@@ -169,16 +153,14 @@ public class ProductDao extends AbstractDao<Product, Void> {
     @Override
     public void readEntity(Cursor cursor, Product entity, int offset) {
         entity.setTitle(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setDescription(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setUnitPrice(cursor.isNull(offset + 2) ? null : cursor.getFloat(offset + 2));
-        entity.setBought(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
-        entity.setBoughtDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
-        entity.setModificationDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setTitleClean(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setTitleClean(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setMainGroup(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setSubGroup(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setComodity(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setSubComodity(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setModificationDate(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
         entity.setInBasket(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
-        entity.setQuantity(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
-        entity.setQuantityType(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
-        entity.setFk_category_id(cursor.getLong(offset + 10));
+        entity.setFk_category_id(cursor.getLong(offset + 8));
      }
     
     /** @inheritdoc */

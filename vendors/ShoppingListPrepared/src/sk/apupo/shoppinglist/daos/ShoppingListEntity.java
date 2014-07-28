@@ -11,10 +11,9 @@ public class ShoppingListEntity extends BasicEntity  {
 
     private Long id;
     private String title;
+    private String titleClean;
     private String description;
     private java.util.Date modificationDate;
-    private String titleClean;
-    private java.util.Date boughtDate;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -26,13 +25,12 @@ public class ShoppingListEntity extends BasicEntity  {
         this.id = id;
     }
 
-    public ShoppingListEntity(Long id, String title, String description, java.util.Date modificationDate, String titleClean, java.util.Date boughtDate) {
+    public ShoppingListEntity(Long id, String title, String titleClean, String description, java.util.Date modificationDate) {
         this.id = id;
         this.title = title;
+        this.titleClean = titleClean;
         this.description = description;
         this.modificationDate = modificationDate;
-        this.titleClean = titleClean;
-        this.boughtDate = boughtDate;
     }
 
     public Long getId() {
@@ -51,6 +49,14 @@ public class ShoppingListEntity extends BasicEntity  {
         this.title = title;
     }
 
+    public String getTitleClean() {
+        return titleClean;
+    }
+
+    public void setTitleClean(String titleClean) {
+        this.titleClean = titleClean;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -65,22 +71,6 @@ public class ShoppingListEntity extends BasicEntity  {
 
     public void setModificationDate(java.util.Date modificationDate) {
         this.modificationDate = modificationDate;
-    }
-
-    public String getTitleClean() {
-        return titleClean;
-    }
-
-    public void setTitleClean(String titleClean) {
-        this.titleClean = titleClean;
-    }
-
-    public java.util.Date getBoughtDate() {
-        return boughtDate;
-    }
-
-    public void setBoughtDate(java.util.Date boughtDate) {
-        this.boughtDate = boughtDate;
     }
 
     // KEEP METHODS - put your custom methods here

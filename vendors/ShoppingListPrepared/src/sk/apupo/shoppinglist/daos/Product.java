@@ -13,15 +13,13 @@ import de.greenrobot.dao.DaoException;
 public class Product {
 
     private String title;
-    private String description;
-    private Float unitPrice;
-    private Boolean bought;
-    private java.util.Date boughtDate;
-    private java.util.Date modificationDate;
     private String titleClean;
+    private String mainGroup;
+    private String subGroup;
+    private String comodity;
+    private String subComodity;
+    private java.util.Date modificationDate;
     private Boolean inBasket;
-    private Integer quantity;
-    private Integer quantityType;
     private long fk_category_id;
 
     /** Used to resolve relations */
@@ -40,17 +38,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String description, Float unitPrice, Boolean bought, java.util.Date boughtDate, java.util.Date modificationDate, String titleClean, Boolean inBasket, Integer quantity, Integer quantityType, long fk_category_id) {
+    public Product(String title, String titleClean, String mainGroup, String subGroup, String comodity, String subComodity, java.util.Date modificationDate, Boolean inBasket, long fk_category_id) {
         this.title = title;
-        this.description = description;
-        this.unitPrice = unitPrice;
-        this.bought = bought;
-        this.boughtDate = boughtDate;
-        this.modificationDate = modificationDate;
         this.titleClean = titleClean;
+        this.mainGroup = mainGroup;
+        this.subGroup = subGroup;
+        this.comodity = comodity;
+        this.subComodity = subComodity;
+        this.modificationDate = modificationDate;
         this.inBasket = inBasket;
-        this.quantity = quantity;
-        this.quantityType = quantityType;
         this.fk_category_id = fk_category_id;
     }
 
@@ -68,36 +64,44 @@ public class Product {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTitleClean() {
+        return titleClean;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTitleClean(String titleClean) {
+        this.titleClean = titleClean;
     }
 
-    public Float getUnitPrice() {
-        return unitPrice;
+    public String getMainGroup() {
+        return mainGroup;
     }
 
-    public void setUnitPrice(Float unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setMainGroup(String mainGroup) {
+        this.mainGroup = mainGroup;
     }
 
-    public Boolean getBought() {
-        return bought;
+    public String getSubGroup() {
+        return subGroup;
     }
 
-    public void setBought(Boolean bought) {
-        this.bought = bought;
+    public void setSubGroup(String subGroup) {
+        this.subGroup = subGroup;
     }
 
-    public java.util.Date getBoughtDate() {
-        return boughtDate;
+    public String getComodity() {
+        return comodity;
     }
 
-    public void setBoughtDate(java.util.Date boughtDate) {
-        this.boughtDate = boughtDate;
+    public void setComodity(String comodity) {
+        this.comodity = comodity;
+    }
+
+    public String getSubComodity() {
+        return subComodity;
+    }
+
+    public void setSubComodity(String subComodity) {
+        this.subComodity = subComodity;
     }
 
     public java.util.Date getModificationDate() {
@@ -108,36 +112,12 @@ public class Product {
         this.modificationDate = modificationDate;
     }
 
-    public String getTitleClean() {
-        return titleClean;
-    }
-
-    public void setTitleClean(String titleClean) {
-        this.titleClean = titleClean;
-    }
-
     public Boolean getInBasket() {
         return inBasket;
     }
 
     public void setInBasket(Boolean inBasket) {
         this.inBasket = inBasket;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getQuantityType() {
-        return quantityType;
-    }
-
-    public void setQuantityType(Integer quantityType) {
-        this.quantityType = quantityType;
     }
 
     public long getFk_category_id() {

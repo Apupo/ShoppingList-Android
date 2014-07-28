@@ -2,10 +2,12 @@ package sk.apupo.shoppinglist;
 
 import java.util.ArrayList;
 
+import sk.apupo.android.dao.DaoController;
 import sk.apupo.shoppinglist.daos.Product;
 import sk.apupo.shoppinglist.daos.ProductDao;
 
 import android.content.Context;
+import android.util.Log;
 
 public class DaoPrepared {
 	
@@ -13,33 +15,62 @@ public class DaoPrepared {
 
 	private DaoController daoController;
 	
-	public DaoPrepared(DaoController dc) {
-		this.daoController = daoController;
+	private Context context;
+	
+	private ArrayList<Product> products = new ArrayList<Product>();
+	
+	public DaoPrepared(Context context, DaoController dc) {
+		this.context = context;
+		this.daoController = dc;
 	}
 
-	public boolean runPreparedFromAssets(Context context) {
-		ArrayList<ArrayList<Object>> foods = new ArrayList<>();
-		
+	public boolean runPreparedFromAssets() {
 		for (int i = 0; i < attributes.length; i++) {
-			ArrayList<Object> arr = AssetsFileReader.readStringFile(context, attributes[i]);
-			foods.add(arr);
+			ArrayList<Object> arr = AssetsFileReader.readStringFile(this.context, attributes[i]);
+			fillProjects(attributes[i].toString(), arr);
 		}
-
-		ArrayList<Product> products = new ArrayList<Product>();
-		int size = foods.get(0).size();
-		
-		for (int i = 0; i < size; i++) {
-			Product product = new Product();
-			for (int j = 0; j < foods.size(); j++) {
-				//product.set
-			}
-		}
-		
-		
 		
 		ProductDao pdao = (ProductDao) this.daoController.getDao(ProductDao.class);
-		
-		
+		Log.d(this.getClass().getSimpleName(), "Start inserting");
+		pdao.insertInTx(this.products);
+		Log.d(this.getClass().getSimpleName(), "Inserting finished");
 		return true;
+	}
+	
+	protected void fillProjects(String name, ArrayList<Object> arr) {
+		Product product = null;
+		
+		for (int i = 0; i < arr.size(); i++) {
+			product = getProductFromIntex(i);
+			
+			String str = arr.get(i).toString();
+			
+			if(name.equalsIgnoreCase("names.txt")) {
+				product.setTitle(str);
+				product.setTitleClean(str.toLowerCase());
+			} else if(name.equalsIgnoreCase("main_group.txt")) {
+				product.setMainGroup(str);
+			} else if(name.equalsIgnoreCase("sub_group.txt")) {
+				product.setSubGroup(str);
+			} else if(name.equalsIgnoreCase("comodity.txt")) {
+				product.setComodity(str);
+			} else if(name.equalsIgnoreCase("sub_comodity.txt")) {
+				product.setSubComodity(str);
+			}
+			
+		}
+	}
+	
+	protected Product getProductFromIntex(int index) {
+		Product product = null;
+		
+		try {
+			product = this.products.get(index);
+		} catch (Exception e) {
+			product = new Product();
+			this.products.add(product);
+		}
+		
+		return this.products.get(index);
 	}
 }

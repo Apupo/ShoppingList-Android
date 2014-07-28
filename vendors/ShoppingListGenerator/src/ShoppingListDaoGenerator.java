@@ -29,9 +29,7 @@ public class ShoppingListDaoGenerator {
 	private static void addBasic(Schema schema) {
 		basic = schema.addEntity("BasicEntity");
 		
-		//basic.addIntProperty("modificationDate");		
 		basic.addBooleanProperty("deletedLogical");
-		
 	}
 	
 	private static void addProduct(Schema schema) {
@@ -41,15 +39,13 @@ public class ShoppingListDaoGenerator {
 		
 		product = schema.addEntity("Product");
 		product.addStringProperty("title");
-		product.addStringProperty("description");
-		product.addFloatProperty("unitPrice");
-		product.addBooleanProperty("bought");
-		product.addDateProperty("boughtDate");
-		product.addDateProperty("modificationDate");
 		product.addStringProperty("titleClean");
+		product.addStringProperty("mainGroup");
+		product.addStringProperty("subGroup");
+		product.addStringProperty("comodity");
+		product.addStringProperty("subComodity");
+		product.addDateProperty("modificationDate");
 		product.addBooleanProperty("inBasket");
-		product.addIntProperty("quantity");
-		product.addIntProperty("quantityType");
 	}
 	
 	private static void addCategory(Schema schema) {
@@ -69,10 +65,9 @@ public class ShoppingListDaoGenerator {
 		shoppinglist.addIdProperty().index().primaryKey().autoincrement();
 		
 		shoppinglist.addStringProperty("title");
+		shoppinglist.addStringProperty("titleClean");
 		shoppinglist.addStringProperty("description");
 		shoppinglist.addDateProperty("modificationDate");
-		shoppinglist.addStringProperty("titleClean");
-		shoppinglist.addDateProperty("boughtDate");
 	}
 	
 	private static void addRelationships(Schema schema) {
