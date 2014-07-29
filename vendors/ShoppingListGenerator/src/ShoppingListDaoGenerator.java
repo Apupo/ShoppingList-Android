@@ -8,7 +8,7 @@ public class ShoppingListDaoGenerator {
 	
 	private static Entity 	basic, product, category, shoppinglist;
 
-	private static final String SHOPPING_LIST_GENERATE_PATH					=				"../ShoppingList/src";
+	private static final String SHOPPING_LIST_GENERATE_PATH					=				"../../ShoppingList/src";
 	private static final String SHOPPING_LIST_PREPARED_GENERATE_PATH		=				"../ShoppingListPrepared/src";
 	
 	public static void main(String[] args) throws Exception {
@@ -23,7 +23,8 @@ public class ShoppingListDaoGenerator {
 		
 		addRelationships(schema);
 		
-		new DaoGenerator().generateAll(schema, SHOPPING_LIST_PREPARED_GENERATE_PATH);
+		//new DaoGenerator().generateAll(schema, SHOPPING_LIST_GENERATE_PATH);
+		//new DaoGenerator().generateAll(schema, SHOPPING_LIST_PREPARED_GENERATE_PATH);
 	}
 	
 	private static void addBasic(Schema schema) {
@@ -46,6 +47,7 @@ public class ShoppingListDaoGenerator {
 		product.addStringProperty("subComodity");
 		product.addDateProperty("modificationDate");
 		product.addBooleanProperty("inBasket");
+		product.addBooleanProperty("prepared");
 	}
 	
 	private static void addCategory(Schema schema) {
